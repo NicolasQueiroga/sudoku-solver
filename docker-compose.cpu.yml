@@ -1,11 +1,8 @@
-version: '3'
-
 services:
   opencv:
     container_name: opencv
-    build:
-      context: Dockerfile.cpu
-    network_mode: 'host'
+    image: nicolasqueiroga/opencv-cpu:latest
+    command: /bin/sh
     privileged: true
     volumes:
       - ./code:/code
