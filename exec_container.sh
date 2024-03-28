@@ -1,12 +1,12 @@
 #!/bin/bash
 
-if [ "$1" = "opencv-cpu" || "$1" = "opencv-gpu" ]; then
-  HOST_PORT=8080
-else
-  echo "Invalid argument supplied"
-  echo "Usage: ./exec_container.sh <container_name>"
-  exit 1
-fi
+# if [ "$1" = "opencv-cpu" || "$1" = "opencv-gpu" ]; then
+#   HOST_PORT=8080
+# else
+#   echo "Invalid argument supplied"
+#   echo "Usage: ./exec_container.sh <container_name>"
+#   exit 1
+# fi
 
 # Set the name of the container
 CONTAINER_NAME=$1
