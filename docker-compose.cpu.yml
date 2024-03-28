@@ -1,11 +1,11 @@
 services:
   opencv:
-    container_name: opencv
+    container_name: opencv-cpu
     image: nicolasqueiroga/opencv-cpu:latest
     command: /bin/sh
     privileged: true
     volumes:
-      - ./code:/code
+      - ./code:/home/code
       - /tmp/.X11-unix:/tmp/.X11-unix
     devices:
       - /dev/video0:/dev/video0

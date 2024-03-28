@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ "$1" = "opencv" ]; then
+if [ "$1" = "opencv-cpu" || "$1" = "opencv-gpu" ]; then
   HOST_PORT=8080
 else
   echo "Invalid argument supplied"
