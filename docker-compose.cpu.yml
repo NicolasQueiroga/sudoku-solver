@@ -2,7 +2,6 @@ services:
   opencv:
     container_name: opencv-cpu
     image: nicolasqueiroga/opencv-cpu:latest
-    command: /bin/sh
     privileged: true
     volumes:
       - ./code:/home/code
