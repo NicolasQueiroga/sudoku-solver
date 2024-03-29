@@ -1,7 +1,7 @@
 services:
   opencv:
-    container_name: opencv-cpu
     image: nicolasqueiroga/opencv-cpu:latest
+    container_name: opencv-cpu
     privileged: true
     volumes:
       - ./code:/home/code

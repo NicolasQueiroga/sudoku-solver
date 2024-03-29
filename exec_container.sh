@@ -1,24 +1,20 @@
 #!/bin/bash
 
-# if [ "$1" = "opencv-cpu" || "$1" = "opencv-gpu" ]; then
-#   HOST_PORT=8080
-# else
-#   echo "Invalid argument supplied"
-#   echo "Usage: ./exec_container.sh <container_name>"
-#   exit 1
-# fi
+# if arg is gpu or cpu, ok, else exit
+if [ "$1" != "cpu" ] && [ "$1" != "gpu" ]; then
+  echo "Invalid argument supplied"
+  echo "Usage: ./exec_container.sh [cpu|gpu]"
+  exit 1
+fi
 
-# Set the name of the container
-CONTAINER_NAME=$1
-IMAGE_NAME=$1
+# set display environment variable
+xhost +
+DISPLAY=:0
 
-# echo a message that to exit the container and keep it running in the background DO NOT use CTRL+D, use CTRL+P+Q
-echo "############################################################################################"
-echo "To exit the container and keep it running in the background DO NOT use CTRL+D, use CTRL+P+Q"
-echo "############################################################################################"
+SERVICE_NAME="opencv"
+CONTAINER_NAME="opencv-$1"
 
-# Check if the container exists
-if [ "$(docker ps -aq -f name=$CONTAINER_NAME)" ]; then
+if [ "$(docker ps -aq -f name=$SERVICE_NAME)" ]; then
   # Check if the container is running
   if [ "$(docker inspect -f '{{.State.Running}}' $CONTAINER_NAME)" = "true" ]; then
     # Container is already running, attach to its terminal
@@ -29,7 +25,6 @@ if [ "$(docker ps -aq -f name=$CONTAINER_NAME)" ]; then
     docker attach $CONTAINER_NAME
   fi
 else
-  # Container doesn't exist, create and start it, and attach to its terminal
-  docker compose run -p $HOST_PORT:80 --name $CONTAINER_NAME $IMAGE_NAME
-  docker attach $CONTAINER_NAME
+  # Container doesn't exist, run it
+  docker compose -f docker-compose.$1.yml run --name $CONTAINER_NAME $SERVICE_NAME
 fi
