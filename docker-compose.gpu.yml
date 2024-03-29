@@ -1,19 +1,18 @@
 services:
   opencv:
-    container_name: opencv-gpu
     image: nicolasqueiroga/opencv-gpu:latest
-    shm_size: '8gb'
-    network_mode: 'host'
+    container_name: opencv-gpu
     privileged: true
+    shm_size: '8gb'
     volumes:
-      - ./code:/code
+      - ./code:/home/code
       - /tmp/.X11-unix:/tmp/.X11-unix
     devices:
       - /dev/video0:/dev/video0
     environment:
       - DISPLAY=$DISPLAY
-    ports:
-      - 8888:8888
+    networks:
+      - sudoku-solver-network
     deploy:
       resources:
         reservations:
@@ -21,3 +20,10 @@ services:
             - driver: nvidia
               count: 1
               capabilities: [ gpu ]
+
+networks:
+  sudoku-solver-network:
+
+
+volumes:
+  sudoku-solver-volume:

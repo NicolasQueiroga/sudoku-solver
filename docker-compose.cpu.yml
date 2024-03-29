@@ -10,5 +10,12 @@ services:
       - /dev/video0:/dev/video0
     environment:
       - DISPLAY=$DISPLAY
-    ports:
-      - 8888:8888
+    networks:
+      - sudoku-solver-network
+
+networks:
+  sudoku-solver-network:
+
+
+volumes:
+  sudoku-solver-volume:
