@@ -10,5 +10,17 @@ find_package(OpenCV REQUIRED)
 
 add_executable(main src/main.cpp)
 
-target_include_directories(main PUBLIC ${OpenCV_INCLUDE_DIRS})
-target_link_libraries(main ${OpenCV_LIBS})
+add_library(ImageProcessor src/ImageProcessor.cpp)
+target_include_directories(ImageProcessor PUBLIC include ${OpenCV_INCLUDE_DIRS})
+target_link_libraries(ImageProcessor ${OpenCV_LIBS})
+
+add_library(SudokuBoard src/SudokuBoard.cpp)
+target_include_directories(SudokuBoard PUBLIC include ${OpenCV_INCLUDE_DIRS})
+target_link_libraries(SudokuBoard ${OpenCV_LIBS})
+
+add_library(SudokuSolver src/SudokuSolver.cpp)
+target_include_directories(SudokuSolver PUBLIC include)
+target_link_libraries(SudokuSolver SudokuBoard)
+
+
+target_link_libraries(main SudokuBoard SudokuSolver ImageProcessor ${OpenCV_LIBS})
