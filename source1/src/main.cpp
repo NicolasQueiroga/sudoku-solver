@@ -80,18 +80,28 @@ int main(int argc, char **argv)
             filteredContours.push_back(contour);
     }
 
-    std::vector<std::vector<cv::Point>> squares;
-    for (const std::vector<cv::Point> &contour : filteredContours)
-    {
-        double perimeter = cv::arcLength(contour, true);
-        std::vector<cv::Point> approx;
-        cv::approxPolyDP(contour, approx, 0.031 * perimeter, true);
-        cv::drawContours(image, std::vector<std::vector<cv::Point>>{approx}, -1, cv::Scalar(0, 255, 0), 2);
-    }
+    std::vector<cv::Point> largestContour = filteredContours[0];
+    double perimeter = cv::arcLength(largestContour, true);
+    std::vector<cv::Point> approx;
+    cv::approxPolyDP(largestContour, approx, 0.031 * perimeter, true);
+    cv::drawContours(image, std::vector<std::vector<cv::Point>>{approx}, -1, cv::Scalar(0, 255, 0), 2);
+
+    cv::Point2f topLeft = approx[0];
+    cv::Point2f topRight = approx[1];
+    cv::Point2f bottomLeft = approx[2];
+    cv::Point2f bottomRight = approx[3];
+    cv::circle(image, topLeft, 5, cv::Scalar(255, 0, 0), -1);
+    cv::circle(image, topRight, 5, cv::Scalar(255, 0, 0), -1);
+    cv::circle(image, bottomLeft, 5, cv::Scalar(255, 0, 0), -1);
+    cv::circle(image, bottomRight, 5, cv::Scalar(255, 0, 0), -1);
     showImage("Filtered Contours", image);
+
+    //! warp the sobelEdges image so that the top-left point is at (0, 0), the top-right point is at (width, 0), the bottom-left point is at (0, height), and the bottom-right point is at (width, height)
+    //! get the width and height of the new image
+    //! subdivide the formed square into 9 equal parts horizontally and vertically
+    //! show each square in a separate window to verify the correctness of the warp and if the squares are inline with the sudoku grid
 
     delete contourImage;
     cv::destroyAllWindows();
-
     return 0;
 }
